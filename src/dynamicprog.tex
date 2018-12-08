@@ -107,8 +107,52 @@ memoization table, and trying to figure out how long it would take to fill it.
 
 The problem is as follows: Suppose you are given two sequence $A$ and $B$. Your
 objective is to find a subsequence $S \subseteq A, B$ such that the length of
-$S$ is maximized. This is a classic problem for applications in revision
-control, the diff utility on your computer, and many more NLP like reasons.
+$S$ is maximized. We want to write code to solve for $len(S)$. This is a
+classic problem for applications in revision control, the diff utility on your
+computer, and many more NLP like reasons.
+
+So how do we solve this problem using dynamic programming? Well first we try to
+fit it to the constraints of optimal substructure and overlapping subproblems.
+To that end, consider placing points $i,j$ at the end of $A,B$:
+
+\begin{align*}
+A = a_1 a_2 a_3 \dots a_n & \gets i \\
+B = b_1 b_2 b_3 \dots b_m & \gets j \\
+\end{align*}
+
+Consider the local problem of whether $a_i$ and $b_j$ should be considered in
+our greatest subsequence:
+
+\begin{enumerate}[(1)]
+
+\item Suppose $a_i = b_j$. Then we know that the element $a_i \in A$ and $a_i
+\in B$, therefore being a candidate to go in $S$. Do we ever have reason to
+exclude something from $S$? In this problem no! Therefore we decide to add $1$
+to our length. But then how can we continue processing after selecting $a_i$ and
+$b_j$? Well we still need to select the best subsequence from $A[1..i-1]$ and
+$B[1..j-1$. This sounds like a subproblem with the last character of each
+sequence excluded!
+
+\item Suppose $a_i \neq b_j$. Here's where things get a little bit more
+complicated. Before when they were equal, we could conclude that we can take
+both, but here we can't just say skip past this element. Take for example the
+strings:
+
+$$
+A = aaaab, B = bbbba
+$$
+
+Considering the last element, if we choose to ignore them because they're not
+equal, we reduce our problem to $aaaa, bbbb$, which has no GCS. However,
+clearly $\{a\}$ or $\{b\}$ solves our problem.
+
+Instead what we decide to do is not blindly skip past $a_i$ or $b_j$. We say
+instead that we skip past \textit{either} $a_i$ \textit{or} $b_j$. How do we
+decide which one? The one which produces the longer subsequence.
+
+\end{enumerate}
+
+Using the above analysis we then conclude that a solution to the GCS problem is:
 
 $$
 GCS(i,j) = \begin{cases}
@@ -118,7 +162,8 @@ GCS(i,j) = \begin{cases}
 \end{cases}
 $$
 
-\begin{algorithm}
+where intially $i = n, j = m$.
+
 \begin{algorithmic}[1]
 \State Let $A[1..n]$ and $B[1..m]$ be two character arrays.
 \Procedure{GCS}{$i,j$}
@@ -131,8 +176,6 @@ $$
 	\EndIf
 \EndProcedure
 \end{algorithmic}
-\end{algorithm}
-\begin{algorithm}
 \begin{algorithmic}[1]
 \State Let $A[1..n]$ and $B[1..m]$ be two character arrays.
 \State Let $Memo[1..n,1..m]$ be a 2d array initialized to $-1$.
@@ -149,8 +192,6 @@ $$
 	\State Return $Memo[i,j]$.
 \EndProcedure
 \end{algorithmic}
-\end{algorithm}
-\begin{algorithm*}
 \begin{algorithmic}[1]
 \State Let $A[1..n]$ and $B[1..m]$ be two character arrays.
 \State Let $Memo[1..n,1..m]$ be a 2d array initialized to $-1$.
@@ -176,4 +217,3 @@ $$
 	\State Return $Memo[i,j]$.
 \EndProcedure
 \end{algorithmic}
-\end{algorithm*}
