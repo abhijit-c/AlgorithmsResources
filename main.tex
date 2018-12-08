@@ -1,0 +1,100 @@
+% --------------------------------------------------------------
+% Abhi's Standard math Preamble.
+% --------------------------------------------------------------
+ 
+\documentclass[12pt]{article}
+ 
+%Math Packages
+\usepackage[margin=1in]{geometry} 
+\usepackage{amsmath,amsthm,amssymb,mathrsfs,bm}
+\usepackage{mathtools}
+\usepackage{xfrac}
+\usepackage{commath}
+\usepackage{minted}
+\usepackage{enumerate}
+\usepackage{fancyhdr}
+\usepackage{esint}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{qtree}
+\usepackage{epigraph}
+\usepackage{centernot}
+\usepackage{float}
+
+
+ 
+%Fonts
+%\usepackage[sc,osf]{mathpazo}   % With old-style figures and real smallcaps.
+%\usepackage{lmodern}
+%\usepackage{eulervm}
+
+\DeclareMathOperator{\sign}{sgn}
+
+%Math commands
+% Mathematical Fields
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\C}{\mathbb{C}}
+%Divides and Not Divides
+\newcommand{\divides}{\bigm|}
+\newcommand{\ndivides}{%
+  \mathrel{\mkern.5mu % small adjustment
+    % superimpose \nmid to \big|
+    \ooalign{\hidewidth$\big|$\hidewidth\cr$\nmid$\cr}%
+  }%
+}
+%Limit as n -> inf
+\newcommand{\limty}{\lim_{n \to \infty}}
+%sum from n=1 \to inf
+\newcommand{\sumty}{\sum_{n = 1}^\infty}
+
+\newcommand{\lindelof}{Lindel\={o}f }
+
+\theoremstyle{definition}
+\newtheorem*{lemma*}{Lemma}
+\newtheorem*{definition*}{Definition}
+ 
+\begin{document}
+ 
+% --------------------------------------------------------------
+%                         Start here
+% --------------------------------------------------------------
+
+ 
+\title{Algorithms Topics Review}%replace X with the appropriate number
+\author{Abhijit Chowdhary\\ %replace with your name
+Fundamental Algorithms \\
+Prof. Siegel} %if necessary, replace with your course title
+
+\maketitle
+
+\epigraph{Beware of bugs in the below code: I have only proved it correct, not
+tried it.}{\textit{Donald Knuth}}
+
+\tableofcontents
+\pagebreak
+
+\input{./src/asymrec.tex}
+\input{./src/dynamicprog.tex}
+
+\section{Figures}
+
+\subsection{Common Time Complexities}
+\begin{figure}[H]
+\includegraphics[width= \textwidth]{./Images/classes.png}
+\caption{Don't worry about polyarithmitic and L notation. (src. Wikipedia)}
+\centering
+\end{figure}
+
+\subsection{Fibbonacci Overlapping Subproblems}
+\begin{figure}[H]
+\caption{Fibbonacci has overlapping subproblems}
+\centering
+\includegraphics[width=.3\textwidth]{./Images/fibb.png}
+\end{figure}
+
+
+
+\end{document}

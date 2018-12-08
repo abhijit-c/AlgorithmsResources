@@ -1,0 +1,13 @@
+digraph G {
+	a_5 [texlbl="F_5"];
+	a_5 [texlbl="F_4"];
+	a_5 [texlbl="F_3"];
+	a_5 [texlbl="F_2"];
+	a_5 [texlbl="F_1"];
+	a_5 -> a_4;
+	a_5 -> a_3;
+	a_4 -> a_2;
+	a_4 -> a_3;
+	a_3 -> a_1;
+	a_3 -> a_2;
+}

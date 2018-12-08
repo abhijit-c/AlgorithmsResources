@@ -1,0 +1,179 @@
+\section{Dynamic Programming}
+
+Dynamic programming is a technique from optimization field, specally it's a
+method to solve problem if the problem exhibits \textbf{optimal substructure}
+and \textbf{overlapping subproblems}.
+
+\begin{definition*}
+
+A problem is said to have \textbf{optimal substructure} if it can be constructed
+from optimal solutions of its subproblems. 
+
+For an example, suppose $T$ a tree and consider the problem where $\forall v \in
+T$, you want to compute a field $\min$ such that $\min[v] = \min\{w.val : w \in
+ST(v)\}$ where $ST(v)$ denotes the subtree rooted by $v$. This problem exhibits
+optimal substructure, as for arbitrary vertex $v$, you have $\min[w]$ computed
+for all $w \in Children[v]$, then you can construct $\min[v]$ as the minimum of
+your childrens answers and your own.
+
+\end{definition*}
+
+\begin{definition*}
+
+A problem is said to have \textbf{overlapping subproblems} if the problem can be
+broken down into subproblems which are reused several times.
+
+For an example, consider the Fibonnacci number sequence $a_n = a_{n-1} +
+a_{n-2}, a_2 = a_1 = 1$. Consider the value $a_5$. Notice that we can express it
+as a graph (see figure 2) with many incoming edges (in particular a DAG).
+Whereas problems with optimal substructure but not overlapping subproblems look
+like the problem $\min[v]$ problem, and can be modeled by trees.
+
+\end{definition*}
+
+The idea behind the dynamic programming problems we deal with is that if we
+remember problems as we do it, we can elimate the "overlapping" problems and
+reduce our computational cost as much as possible.
+
+We've discussed three problems that we call "representative" of a lot of dynamic
+programming techniques: GCD, Woodcut, and Matrix Chain. We find that many
+dynamic programming problems reduce down to similar techniques needed to solve
+these. In this section we discuss how to tackle these problems fully, but before
+that we introduce \textbf{memoization}.
+
+\subsection{Memoization through Fibbonacci}
+
+As discussed above, the Fibbonacci sequence $F_n = F_{n-1} + F_{n-2}, F_2 = F_1
+= 1$, is a prime example of a dynamic programming problem, since it has both
+optimal substructure and overlapping subproblems. Using the recurrence
+relationship defined above we can write recursive code to solve this problem:
+
+\begin{algorithmic}[1]
+\Procedure{F}{$n$}\Comment{$a_1 = 1, a_2 = 1, a_n = a_{n-1}+a_{n-2}$}
+	\If{$n \leq 2$}
+		\State Return $1$
+	\Else
+		\State Return $F(n-1)+F(n-2)$
+	\EndIf
+\EndProcedure
+\end{algorithmic}
+
+However, if we were to run just this we would find ourselves choked by the
+runtime cost almost immediately. This is a consequence of the overlapping
+subproblems portion of Fibbonacci, i.e. we're repeatedly computing the same
+pieces of data. How do we resolve this? We implement \textbf{memoization}.
+
+\begin{definition*}
+\textbf{Memoization} is an optimization technique where we store and cache the
+results of expensive function calls. The idea is that if we want to compute said
+function again, we look in our cache first. (Memoization $\gets$ making a memo.)
+\end{definition*}
+
+Let's take a look at this implemented in the Fibbonacci sequence.
+
+\begin{algorithmic}[1]
+\State Let Memo[1..n] be a integer valued array initialized to $-1$.
+\Procedure{F}{$n$}\Comment{Recursive or top down}
+	\If{$n \leq 2$}
+		\State Return $1$.
+	\ElsIf{$Memo[n] \neq -1$} \Comment{If we have computed $n$, use that result}
+		\State Return $Memo[n]$. 
+	\Else \Comment{Otherwise, compute it, store it, and return it.}
+		\State $Memo[n] = F(n-1)+F(n-2)$.
+		\State Return $Memo[n]$. 
+	\EndIf
+\EndProcedure
+\end{algorithmic}
+
+We can also implement this iteratively using a lookup table:
+
+\begin{algorithmic}[1]
+\Procedure{F}{$n$}\Comment{Iterative or bottom up}
+	\State Let Memo[1..n] be a integer valued array.
+	\State Let $Memo[1], Memo[2] = 1$.
+	\For{$i = 3 \to n$}
+		\State $Memo[i] = Memo[i-1] + Memo[i-2]$
+	\EndFor
+\EndProcedure
+\end{algorithmic}
+
+Without the memoization table, our runtime was exponential, but what about now?
+It's clear by the iterative version that our usage of memoization brings us to
+$\theta(n)$ work, which is basically a night and day difference. In general we
+can examing the new runtime of our dynamic programming problem by looking at the
+memoization table, and trying to figure out how long it would take to fill it.
+
+\subsection{Greatest Common Subsequence}
+
+The problem is as follows: Suppose you are given two sequence $A$ and $B$. Your
+objective is to find a subsequence $S \subseteq A, B$ such that the length of
+$S$ is maximized. This is a classic problem for applications in revision
+control, the diff utility on your computer, and many more NLP like reasons.
+
+$$
+GCS(i,j) = \begin{cases}
+0, & ij = 0 \\
+1 + GCS(i-1,j-1), & A[i] = A[j] \\
+\max(GCS(i-1,j),GCS(i,j-1)), & \text{otherwise}
+\end{cases}
+$$
+
+\begin{algorithm}
+\begin{algorithmic}[1]
+\State Let $A[1..n]$ and $B[1..m]$ be two character arrays.
+\Procedure{GCS}{$i,j$}
+	\If{$ij = 0$}
+		\State Return $0$.
+	\ElsIf{$A[i] = B[j]$}
+		\State Return $1 + GCS(i-1,j-1)$.
+	\Else 
+		\State Return $\max(GCS(i-1,j),GCS(i,j-1))$.
+	\EndIf
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+\begin{algorithm}
+\begin{algorithmic}[1]
+\State Let $A[1..n]$ and $B[1..m]$ be two character arrays.
+\State Let $Memo[1..n,1..m]$ be a 2d array initialized to $-1$.
+\Procedure{GCS}{$i,j$}
+	\If{$ij = 0$}
+		\State Return $0$.
+	\ElsIf{$Memo[i,j] \neq -1$}
+		\State Return $Memo[i,j]$.
+	\ElsIf{$A[i] = B[j]$}
+		\State $Memo[i,j] = 1 + GCS(i-1,j-1)$.
+	\Else 
+		\State $Memo[i,j] = \max(GCS(i-1,j),GCS(i,j-1))$.
+	\EndIf
+	\State Return $Memo[i,j]$.
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+\begin{algorithm*}
+\begin{algorithmic}[1]
+\State Let $A[1..n]$ and $B[1..m]$ be two character arrays.
+\State Let $Memo[1..n,1..m]$ be a 2d array initialized to $-1$.
+\State Let $Decisions[1..n,1..m]$ be a 2d array.
+\Procedure{GCS}{$i,j$}
+	\If{$ij = 0$}
+		\State Return $0$.
+	\ElsIf{$Memo[i,j] \neq -1$}
+		\State Return $Memo[i,j]$.
+	\ElsIf{$A[i] = B[j]$}
+		\State $Memo[i,j] = 1 + GCS(i-1,j-1)$.
+		\State $Decisions[i,j] = (i-1,j-1)$.
+	\Else 
+		\State $v_1, v_2 = GCS(i-1,j), GCS(i,j-1)$.
+		\If{$v_1 > v_2$}
+			\State $Memo[i,j] = v_1$.
+			\State $Decisions[i,j] = (i-1,j)$.
+		\Else
+			\State $Memo[i,j] = v_2$.
+			\State $Decisions[i,j] = (i,j-1)$.
+		\EndIf
+	\EndIf
+	\State Return $Memo[i,j]$.
+\EndProcedure
+\end{algorithmic}
+\end{algorithm*}
