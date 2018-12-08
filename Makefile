@@ -1,4 +1,4 @@
-name=texResult
+name=Notes
 PLatFlags= -jobname=$(name) --shell-escape
 
 default:
