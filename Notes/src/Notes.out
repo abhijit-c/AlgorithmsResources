@@ -1,0 +1,21 @@
+\BOOKMARK [1][-]{section.1}{Asymptotics and Recurrences}{}% 1
+\BOOKMARK [2][-]{subsection.1.1}{Math Review}{section.1}% 2
+\BOOKMARK [2][-]{subsection.1.2}{Asymptotics Analysis}{section.1}% 3
+\BOOKMARK [3][-]{subsubsection.1.2.1}{Big O notation}{subsection.1.2}% 4
+\BOOKMARK [3][-]{subsubsection.1.2.2}{Properties of Big O}{subsection.1.2}% 5
+\BOOKMARK [3][-]{subsubsection.1.2.3}{Time Complexity Comparison}{subsection.1.2}% 6
+\BOOKMARK [2][-]{subsection.1.3}{Algorithm \040Recurrence}{section.1}% 7
+\BOOKMARK [3][-]{subsubsection.1.3.1}{Fibbonacci Sequence}{subsection.1.3}% 8
+\BOOKMARK [3][-]{subsubsection.1.3.2}{Merge Sort}{subsection.1.3}% 9
+\BOOKMARK [3][-]{subsubsection.1.3.3}{Randomized Algorithms}{subsection.1.3}% 10
+\BOOKMARK [2][-]{subsection.1.4}{Solving Recurrences}{section.1}% 11
+\BOOKMARK [3][-]{subsubsection.1.4.1}{Basic Recurrences}{subsection.1.4}% 12
+\BOOKMARK [3][-]{subsubsection.1.4.2}{Changing the Leaf Level}{subsection.1.4}% 13
+\BOOKMARK [3][-]{subsubsection.1.4.3}{Multiple Decay Rates}{subsection.1.4}% 14
+\BOOKMARK [3][-]{subsubsection.1.4.4}{Strange Decay Rates}{subsection.1.4}% 15
+\BOOKMARK [1][-]{section.2}{Dynamic Programming}{}% 16
+\BOOKMARK [2][-]{subsection.2.1}{Memoization through Fibbonacci}{section.2}% 17
+\BOOKMARK [2][-]{subsection.2.2}{Greatest Common Subsequence}{section.2}% 18
+\BOOKMARK [1][-]{section.3}{Figures}{}% 19
+\BOOKMARK [2][-]{subsection.3.1}{Common Time Complexities}{section.3}% 20
+\BOOKMARK [2][-]{subsection.3.2}{Fibbonacci Overlapping Subproblems}{section.3}% 21

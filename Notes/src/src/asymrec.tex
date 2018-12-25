@@ -73,7 +73,6 @@ Therefore, dividing through by $\log_k(b)$ gives us the desired identity.
 \subsection{Asymptotics Analysis}
 
 In the analysis of algorithms, one of our goals is to classify growth of the
-
 runtime and storage complexity of functions. To do so, it's in our interest to
 examine the limiting behavior of functions, i.e. when our input becomes large
 what does our function do. To this end we introduce Big O notation.
@@ -161,10 +160,8 @@ There's a couple of useful properties of Big O that are good to know. Let $f_1 =
 \item Scalar multiplication: $\theta(kg) = \theta(g)$ supposing $k \neq 0$. In
 addition $kf_1 = \theta(g_1)$.
 
-\item Elephant concept: Suppose $\max(g_1, g_2) = g_1$. Then $\theta(g_1 + g_2)
-= \theta(g_1)$. NOTE that this does not imply that $\theta(g_1g_2) =
-\theta(g_1)$. Counterexample is $g_1(n) = g_2(n) = n$. You can think about this
-like $\theta$ takes summation to maximization.
+\item Summation $\to$ maximization.: $\theta(g_1 + g_2) = \theta(\max(g_1,
+g_2))$. 
 
 \end{enumerate}
 
