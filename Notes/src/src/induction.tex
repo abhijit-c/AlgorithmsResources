@@ -1,0 +1,122 @@
+\section{Induction}
+
+Induciton is an important tool in computer science, as it provides us one with
+an procedure to show correctness of our algorithms, and two can be directly
+translated to recursion.
+
+\subsection{Definition and Examples}
+
+\begin{definition*}
+
+\textbf{Induction} is a mathematical proof technique. Formally, suppose we have
+some program $P$, which has input $n$. Furthermore, suppose we can show that:
+\begin{enumerate}[1)]
+\item $[$Base Case$]$ $P(0)$ is provably correct.
+\item $[$Inductive Step$]$ Suppose that $P(0), \dots, P(k)$ is correct for some
+fixed $k \in \N$.  Then we can show that $P(k+1)$ is provably correct.
+\end{enumerate}
+Then it must be true that $\forall n, P(n)$ is correct. (Note that we don't need
+for \textit{zero} that $P(0)$ is provably correct, but rather that $P(n_0)$ is
+provably correct, for some fixed $n_0$. We will typically take $n_0 = 0, 1$.)
+
+Conceptually you can envision this as a staircase. Suppose that you can stand at
+the bottom of the staircase, and that if you're on step $k$, you can move to
+step $k+1$. Then we know that $\forall n$, we can stand on step $n$.
+
+\end{definition*}
+
+Take the following as applications of induction.
+
+\begin{itemize}
+
+\item Prove that $1 + 2 + \dots + n = \frac{n(n+1)}{2}$.
+
+\begin{proof}
+
+Clearly for $n = 1$, we have that $1 = \frac{1(1+1)}{2} = 1$. Now suppose that
+$1 + 2 + \dots + n = \frac{n(n+1)}{2}$. We want to show that $1 + \dots + n+1 =
+\frac{(n+1)(n+2)}{2}$. Notice that:
+$$
+\sum_{i=1}^{n+1} i = n+1 + \sum_{i=1}^{n}i = n+1 + \frac{n(n+1)}{2}
+$$
+The last equality being true by our assumption. Now notice we can write
+$n(n+1)/2 = (n^2 + n)/2$, and we can write $n+1 = \frac{2n + 2}{2}$. Therefore
+adding the two expresions together results in $(n^2 + 3n + 2)/2 =
+(n+1)(n+2)/2$.
+
+\end{proof}
+
+\item We call a \textbf{perfect binary tree} a tree structure such that each
+non-leaf vertex has exactly two children. So for example, a perfect binary tree
+of height $2$ would be:
+
+\Tree [.a [.b d e ] [.c f g ] ]
+
+Prove that a perfect binary tree of height $n$ has exactly $2^n - 1$ vertices.
+
+\begin{proof}
+
+First suppose $n = 1$. Clearly a tree of height $1$ has only one vertex, and
+indeed $2^1 - 1 = 1$.
+
+Now suppose a tree of height $n$ has $2^n - 1$ vertices. We want to show that a
+tree of height $n+1$ must have $2^{n+1} - 1$ vertices. Consider the root of such
+a tree (in the example above it's vertex $a$). Notice that it's left subchild is
+a perfect binary tree of height $n$, and so is it's right subtree. Therefore,
+counting the verteces in each of those subtrees using our supposition that a
+tree of height $n$ has $2^n - 1$ vertices gives us a count of $2(2^n - 1)$ for
+the vertices under the root. Therefore a tree of height $n+1$ has $2(2^n - 1) +
+1$ vertices ($+1$ for the root). Notice that:
+$$
+2(2^n - 1) + 1 = 2^{n+1} -2  + 1 = 2^{n+1} - 1
+$$
+and therefore we've shown our inductive step.
+
+Thus, a perfect binary tree of height $n$ has $2^n - 1$ vertices.
+
+\end{proof}
+
+\end{itemize}
+
+\subsection{Towers of Hanoi and thinking recursively}
+
+The reason why we're reviewing induction, is that induction is very (read:
+\textit{\textbf{VERY}}) useful for proving correctness for recursive functions.
+You will use it in literally every single part of the rest of the course so it
+pays to get it down well. A classical example is Towers of Hanoi.
+
+\begin{definition*}
+
+Towers of Hanoi is a mathematical puzzle. Suppose we have three rods, and a
+number of disks of different sizes $1 \to n$. which can slide onto any rod. The
+puzzle starts with the disks all arranged on the first rod in descending
+order such that $n$ is at the bottom, and $1$ is at the top. For example, for $n
+= 3$, the beginning configuration is:
+
+$$
+\begin{matrix}
+-   & | & | \\
+--  & | & | \\ 
+--- & | & | \\ 
+A & B & C 
+\end{matrix}
+$$
+
+The goal of this game is to move the entire stack of rings from pole $A$ to pole
+$B$, while obeying the constraints:
+
+\begin{itemize}
+
+\item You may move one disk at a time with the command $Move(arg1, arg2)$ where
+this moves the disk on top of pole $arg1$ to the top of pole $arg2$.
+
+\item No larger disk may be placed on top of a smaller disk.
+
+\end{itemize}
+
+\end{definition*}
+
+We want to write an algorithm to solve this puzzle, but to also do so with a
+minimal amount of $Move$ calls.
+
+
